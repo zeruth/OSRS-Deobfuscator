@@ -1,12 +1,23 @@
 # OSRS-Deobfuscator
+--
 
 A standalone OSRS deobfuscator/renamer
+
 Future updates to RuneLite or OSRS may render this obsolete, but it currently works as of Revision 170.
 
+--
+
 Libraries:
+
 asm-debug-all-5.2
+
 guava-16.0.1
+
 Always include latest runelite-api jar, and runescape-api jar from repo.runelite.net
+
+
+--
+
 
 Usage:
 
