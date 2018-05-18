@@ -32,6 +32,8 @@ import java.util.concurrent.TimeUnit;
 import asm.ClassGroup;
 import asm.execution.Execution;
 import deob.deobfuscators.transformers.GetPathTransformer;
+import deob.clientver.ClientVersion;
+import deob.clientver.ClientVersionMain;
 import deob.deobfuscators.CastNull;
 import deob.deobfuscators.constparam.ConstantParameter;
 import deob.deobfuscators.EnumDeobfuscator;
@@ -71,10 +73,16 @@ public class Deob
 			System.out.println("Usage: Deob input_jar output_jar");
 			System.exit(0);
 		}
-
+		File vanillaGamepack = new File(args[0]);
+		
+		ClientVersion osrsVersion = new ClientVersion(vanillaGamepack);
+		
 		Stopwatch stopwatch = Stopwatch.createStarted();
 
-		ClassGroup group = JarUtil.loadJar(new File(args[0]));
+		ClassGroup group = JarUtil.loadJar(vanillaGamepack);
+		
+		System.out.println("---Deobfuscating OSRS revision " + osrsVersion.getVersion()+"---");
+
 
 		
 		System.out.println("RuntimeExceptions");
