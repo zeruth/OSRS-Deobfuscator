@@ -1,9 +1,10 @@
 # OSRS-Deobfuscator
 --
 
-A standalone OSRS deobfuscator/renamer
+A standalone OSRS deobfuscator/refactoring tool
 
-Future updates to RuneLite or OSRS may render this obsolete, but it currently works as of Revision 170.
+Deobfuscator - Removes unnecessary code from vanilla gamepack
+UpdateMappings - Refactors the deobfuscated gamepack using https://github.com/zeruth/runescape-client
 
 --
 
