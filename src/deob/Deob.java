@@ -27,6 +27,8 @@ package deob;
 import com.google.common.base.Stopwatch;
 import java.io.File;
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
+
 import asm.ClassGroup;
 import asm.execution.Execution;
 import deob.deobfuscators.transformers.GetPathTransformer;
@@ -63,78 +65,92 @@ public class Deob
 	public static final int OBFUSCATED_NAME_MAX_LEN = 2;
 	private static final boolean CHECK_EXEC = false;
 
-	public static void main(String[] args) throws IOException
+	public static void main(String inputJar, String outputJar) throws IOException
 	{
-		if (args == null || args.length < 2)
-		{
-			System.err.println("Syntax: input_jar output_jar");
-			System.exit(-1);
-		}
 
 		Stopwatch stopwatch = Stopwatch.createStarted();
 
-		ClassGroup group = JarUtil.loadJar(new File(args[0]));
+		ClassGroup group = JarUtil.loadJar(new File(inputJar));
 
-		// remove except RuntimeException
+		
+		System.out.println("RuntimeExceptions");
 		run(group, new RuntimeExceptions());
 
+		System.out.println("ControlFlow");
 		run(group, new ControlFlowDeobfuscator());
 
+		System.out.println("RenameUnique");
 		run(group, new RenameUnique());
 
-		// remove unused methods - this leaves Code with no instructions,
-		// which is not valid, so unused methods is run after
+		System.out.println("UnreachedCode");
 		run(group, new UnreachedCode());
+		
+		System.out.println("UnusedMethods");
 		run(group, new UnusedMethods());
 
-		// remove illegal state exceptions, frees up some parameters
+		System.out.println("IllegalStateExceptions");
 		run(group, new IllegalStateExceptions());
 
-		// remove constant logically dead parameters
+		System.out.println("ConstantParameter");
 		run(group, new ConstantParameter());
 
-		// remove unhit blocks
+		System.out.println("UnreachedCode");
 		run(group, new UnreachedCode());
+		
+		System.out.println("UnusedMethods");
 		run(group, new UnusedMethods());
 
-		// remove unused parameters
+		System.out.println("UnusedParameters");
 		run(group, new UnusedParameters());
 
-		// remove unused fields
+		System.out.println("UnusedFields");
 		run(group, new UnusedFields());
 
+		System.out.println("FieldInliner");
 		run(group, new FieldInliner());
 
-		// order uses class name order for sorting fields/methods,
-		// so run it before removing classes below
+		System.out.println("Order");
 		run(group, new Order());
 
+		System.out.println("UnusedClass");
 		run(group, new UnusedClass());
 
+		System.out.println("runMath");
 		runMath(group);
 
+		System.out.println("ExprArgOrder");
 		run(group, new ExprArgOrder());
 
+		System.out.println("Lvt");
 		run(group, new Lvt());
 
+		System.out.println("CastNull");
 		run(group, new CastNull());
 
+		System.out.println("EnumDeobfuscator");
 		run(group, new EnumDeobfuscator());
 
+		System.out.println("OpcodesTransformer");
 		new OpcodesTransformer().transform(group);
-		//run(group, new PacketHandlerOrder());
-		//run(group, new PacketWriteDeobfuscator());
 
+		System.out.println("MenuActionDeobfuscator");
 		run(group, new MenuActionDeobfuscator());
 
+		System.out.println("GetPathTransformer");
 		new GetPathTransformer().transform(group);
+		
+		System.out.println("ClientErrorTransformer");
 		new ClientErrorTransformer().transform(group);
+		
+		System.out.println("ReflectionTransformer");
 		new ReflectionTransformer().transform(group);
+		
+		System.out.println("MaxMemoryTransformer");
 		new MaxMemoryTransformer().transform(group);
-		//new RuneliteBufferTransformer().transform(group);
 
-		JarUtil.saveJar(group, new File(args[1]));
+		JarUtil.saveJar(group, new File(outputJar));
 
+		System.out.println("---Deobfuscation took " + stopwatch.elapsed(TimeUnit.SECONDS) + " seconds---");
 		stopwatch.stop();
 	}
 
