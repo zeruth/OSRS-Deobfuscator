@@ -65,12 +65,16 @@ public class Deob
 	public static final int OBFUSCATED_NAME_MAX_LEN = 2;
 	private static final boolean CHECK_EXEC = false;
 
-	public static void main(String inputJar, String outputJar) throws IOException
+	public static void main(String[] args) throws IOException
 	{
+		if (args.length!=2) {
+			System.out.println("Usage: Deob input_jar output_jar");
+			System.exit(0);
+		}
 
 		Stopwatch stopwatch = Stopwatch.createStarted();
 
-		ClassGroup group = JarUtil.loadJar(new File(inputJar));
+		ClassGroup group = JarUtil.loadJar(new File(args[0]));
 
 		
 		System.out.println("RuntimeExceptions");
@@ -148,7 +152,7 @@ public class Deob
 		System.out.println("MaxMemoryTransformer");
 		new MaxMemoryTransformer().transform(group);
 
-		JarUtil.saveJar(group, new File(outputJar));
+		JarUtil.saveJar(group, new File(args[1]));
 
 		System.out.println("---Deobfuscation took " + stopwatch.elapsed(TimeUnit.SECONDS) + " seconds---");
 		stopwatch.stop();
