@@ -4,6 +4,7 @@
 A standalone OSRS deobfuscator/refactoring tool
 
 Deobfuscator - Removes unnecessary code from vanilla gamepack
+
 UpdateMappings - Refactors the deobfuscated gamepack using https://github.com/zeruth/runescape-client
 
 --
