@@ -33,7 +33,6 @@ import asm.ClassGroup;
 import asm.execution.Execution;
 import deob.deobfuscators.transformers.GetPathTransformer;
 import deob.clientver.ClientVersion;
-import deob.clientver.ClientVersionMain;
 import deob.deobfuscators.CastNull;
 import deob.deobfuscators.constparam.ConstantParameter;
 import deob.deobfuscators.EnumDeobfuscator;
@@ -58,7 +57,6 @@ import deob.deobfuscators.menuaction.MenuActionDeobfuscator;
 import deob.deobfuscators.transformers.ClientErrorTransformer;
 import deob.deobfuscators.transformers.MaxMemoryTransformer;
 import deob.deobfuscators.transformers.OpcodesTransformer;
-import deob.deobfuscators.transformers.ReflectionTransformer;
 import deob.util.JarUtil;
 
 public class Deob
@@ -153,9 +151,6 @@ public class Deob
 		
 		System.out.println("ClientErrorTransformer");
 		new ClientErrorTransformer().transform(group);
-		
-		System.out.println("ReflectionTransformer");
-		new ReflectionTransformer().transform(group);
 		
 		System.out.println("MaxMemoryTransformer");
 		new MaxMemoryTransformer().transform(group);
