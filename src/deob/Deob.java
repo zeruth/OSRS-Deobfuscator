@@ -64,13 +64,20 @@ public class Deob
 
 	public static final int OBFUSCATED_NAME_MAX_LEN = 2;
 	private static final boolean CHECK_EXEC = false;
+	public static boolean rsc = false;
 
 	public static void main(String[] args) throws IOException
 	{
-		if (args.length!=2) {
-			System.out.println("Usage: Deob input_jar output_jar");
+		if (args.length!=2&&args.length!=3) {
+			System.out.println("OSRS Usage: Deob input_jar output_jar");
+			System.out.println("RSC Usage: Deob input_jar output_jar rsc");
 			System.exit(0);
 		}
+		
+		if (args.length == 3)
+		if (args[2].equals("rsc"))
+			rsc = true;
+		
 		File vanillaGamepack = new File(args[0]);
 		
 		ClientVersion osrsVersion = new ClientVersion(vanillaGamepack);
@@ -79,7 +86,11 @@ public class Deob
 
 		ClassGroup group = JarUtil.loadJar(vanillaGamepack);
 		
-		System.out.println("---Deobfuscating OSRS revision " + osrsVersion.getVersion()+"---");
+		if (rsc) {
+			System.out.println("---Deobfuscating RSC---");
+		} else {
+			System.out.println("---Deobfuscating OSRS revision " + osrsVersion.getVersion()+"---");
+		}
 
 
 		

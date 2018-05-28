@@ -37,6 +37,8 @@ import asm.ClassFile;
 import asm.ClassGroup;
 import asm.objectwebasm.NonloadingClassWriter;
 import asm.visitors.ClassFileVisitor;
+import deob.Deob;
+
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.ClassWriter;
@@ -94,13 +96,20 @@ public class JarUtil
 
 	public static byte[] writeClass(ClassGroup group, ClassFile cf)
 	{
-		ClassWriter writer = new NonloadingClassWriter(group, ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS);
+		ClassWriter writer;
+		if (Deob.rsc) {
+			writer = new NonloadingClassWriter(group, ClassWriter.COMPUTE_MAXS);
+		}
+		else {
+			writer = new NonloadingClassWriter(group, ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS);
+		}
 		CheckClassAdapter cca = new CheckClassAdapter(writer, false);
 
 		cf.accept(cca);
 
 		byte[] data = writer.toByteArray();
 
+		if (!Deob.rsc)
 		validateDataFlow(cf.getName(), data);
 
 		return data;
