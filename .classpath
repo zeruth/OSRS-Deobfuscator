@@ -8,7 +8,7 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="lib" path="lib/asm-debug-all-5.2.jar"/>
 	<classpathentry kind="lib" path="lib/guava-19.0.jar"/>
-	<classpathentry kind="lib" path="lib/runelite-api-1.4.0-20180521.183501-23.jar"/>
-	<classpathentry kind="lib" path="lib/runescape-api-1.4.0-20180521.183541-23.jar"/>
+	<classpathentry kind="lib" path="lib/runelite-api-1.4.2-20180531.125627-3.jar"/>
+	<classpathentry kind="lib" path="lib/runescape-api-1.4.2-20180531.125707-3.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
